@@ -835,7 +835,7 @@ class PageTest extends TestCase
         $this->assertEquals('pages/mother+child', $page->apiUrl(true));
     }
 
-    public function testCustomMethods()
+    public function testPageMethods()
     {
         Page::$methods = [
             'test' => function () {
@@ -848,5 +848,21 @@ class PageTest extends TestCase
         $this->assertEquals('homer', $page->test());
 
         Page::$methods = [];
+    }
+
+    public function testPageModel()
+    {
+        Page::$models = [
+            'dummy' => DummyPage::class
+        ];
+
+        $page = Page::factory([
+            'slug'  => 'test',
+            'model' => 'dummy'
+        ]);
+
+        $this->assertInstanceOf(DummyPage::class, $page);
+
+        Page::$models = [];
     }
 }
